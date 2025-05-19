@@ -1,3 +1,4 @@
+**仅仅前三个项目，本文代码包含，其他的项目可以直接去论文搜索，在github上仍旧存在**
 * exploit-prompt-learning
   * 论文题目：
     * EXPLOITING PROMPT LEARNING WITH PRE-TRAINED LANGUAGE MODELS FOR ALZHEIMER'S DISEASE DETECTION
@@ -10,7 +11,14 @@
   * **简介**  
     * adress-m比赛第二名公开代码，鲁汶大学
     * 感觉还是很有意义的，可以好好看看，而且能够完全运行
- 
+
+* **SpeechFormer**  
+  * **论文题目**  
+    * SpeechFormer++: A Hierarchical Efficient Framework for Paralinguistic Speech Processing  
+  * **简介**  
+    * 创建了基于语言的Transformer，在AD检测上效果不错，这个代码很全的，可以细致研究，很不错
+  * **备注**  
+    * IEEE Transactions on Geoscience and Remote Sensing
 
 * multimodal-inductive-transfer-learning
   * 论文题目：
@@ -48,13 +56,6 @@
   * **备注**  
     * ACL2019，2019，6\*
 
-* **SpeechFormer**  
-  * **论文题目**  
-    * SpeechFormer++: A Hierarchical Efficient Framework for Paralinguistic Speech Processing  
-  * **简介**  
-    * 创建了基于语言的Transformer，在AD检测上效果不错，这个代码很全的，可以细致研究，很不错
-  * **备注**  
-    * IEEE Transactions on Geoscience and Remote Sensing
 
 * **dementia-assessment**  
   * **论文题目**  

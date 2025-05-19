@@ -1,0 +1,148 @@
+# 模型微调指令
+python /home/public/gl/MultiDetection/PromptADDetection/prompt_finetune.py \
+                                   --project_root /home/public/gl/MultiDetection/PromptADDetection \
+                                   --logs_root /home/public/gl/MultiDetection/PromptADDetection/model_log \
+                                   --off_line_model_dir /home/public/gl/MultiDetection/PromptADDetection/plm \
+                                   --data_dir /home/public/gl/MultiDetection/PromptADDetection/data/ \
+                                   --seed {:d} \
+                                   --tune_plm True \
+                                   --model roberta \
+                                   --model_name roberta \
+                                   --template_type manual \
+                                   --verbalizer_type manual \
+                                   --template_id {:d} \
+                                   --gpu_num {} \
+                                   --num_epochs 10 \
+                                   --no_ckpt True \
+                                   --last_ckpt \
+                                   --no_tensorboard
+
+# MLM微调指令
+python /home/public/gl/MultiDetection/PromptADDetection/transformers-main/transformers-main/examples/pytorch/language-modeling/run_mlm.py \
+    --model_name_or_path /home/public/gl/MultiDetection/PromptADDetection/plm/roberta \
+    --train_file /home/public/gl/MultiDetection/PromptADDetection/data/adress/merged_text.txt \
+    --validation_file /home/public/gl/MultiDetection/PromptADDetection/data/adress/merged_text.txt \
+    --per_device_train_batch_size 1 \
+    --per_device_eval_batch_size 1 \
+    --do_train \
+    --do_eval \
+    --line_by_line \
+    --output_dir /home/public/gl/MultiDetection/PromptADDetection/plm/roberta_mlm \
+    --num_train_epochs  10\
+    --overwrite_output_dir;
+
+# raw_normal:原始样本和gpt生成的正厂样本进行混合
+python /home/public/gl/MultiDetection/PromptADDetection/transformers-main/transformers-main/examples/pytorch/language-modeling/run_mlm.py \
+    --model_name_or_path /home/public/gl/MultiDetection/PromptADDetection/plm/roberta \
+    --train_file /home/public/gl/MultiDetection/PromptADDetection/data/pretrainedText/raw_normal.txt \
+    --validation_file /home/public/gl/MultiDetection/PromptADDetection/data/pretrainedText/raw_normal.txt \
+    --per_device_train_batch_size 1 \
+    --per_device_eval_batch_size 1 \
+    --do_train \
+    --do_eval \
+    --line_by_line \
+    --output_dir /home/public/gl/MultiDetection/PromptADDetection/plm/roberta_mlm_raw_normal \
+    --num_train_epochs  10\
+    --overwrite_output_dir;
+
+# pure_normal:单纯使用gpt生成的正常样本
+python /home/public/gl/MultiDetection/PromptADDetection/transformers-main/transformers-main/examples/pytorch/language-modeling/run_mlm.py \
+    --model_name_or_path /home/public/gl/MultiDetection/PromptADDetection/plm/roberta \
+    --train_file /home/public/gl/MultiDetection/PromptADDetection/data/pretrainedText/cookie_theft/pure_normal.txt \
+    --validation_file /home/public/gl/MultiDetection/PromptADDetection/data/pretrainedText/cookie_theft/pure_normal.txt \
+    --per_device_train_batch_size 1 \
+    --per_device_eval_batch_size 1 \
+    --do_train \
+    --do_eval \
+    --line_by_line \
+    --output_dir /home/public/gl/MultiDetection/PromptADDetection/plm/roberta_mlm_pure_normal_100 \
+    --num_train_epochs  70\
+    --overwrite_output_dir;
+
+# raw_lexical_deficits:正常样本混入了词义缺陷的样本
+python /home/public/gl/MultiDetection/PromptADDetection/transformers-main/transformers-main/examples/pytorch/language-modeling/run_mlm.py \
+    --model_name_or_path /home/public/gl/MultiDetection/PromptADDetection/plm/roberta \
+    --train_file /home/public/gl/MultiDetection/PromptADDetection/data/pretrainedText/cookie_theft/raw_lexical_deficits.txt \
+    --validation_file /home/public/gl/MultiDetection/PromptADDetection/data/pretrainedText/cookie_theft/raw_lexical_deficits.txt \
+    --per_device_train_batch_size 1 \
+    --per_device_eval_batch_size 1 \
+    --do_train \
+    --do_eval \
+    --line_by_line \
+    --output_dir /home/public/gl/MultiDetection/PromptADDetection/plm/roberta_mlm_raw_lexical_deficits \
+    --num_train_epochs  10\
+    --overwrite_output_dir;
+
+
+# raw_reduced_content:正常样本混入了内容缩减的样本
+python /home/public/gl/MultiDetection/PromptADDetection/transformers-main/transformers-main/examples/pytorch/language-modeling/run_mlm.py \
+    --model_name_or_path /home/public/gl/MultiDetection/PromptADDetection/plm/roberta \
+    --train_file /home/public/gl/MultiDetection/PromptADDetection/data/pretrainedText/cookie_theft/raw_reduced_content.txt \
+    --validation_file /home/public/gl/MultiDetection/PromptADDetection/data/pretrainedText/cookie_theft/raw_reduced_content.txt \
+    --per_device_train_batch_size 1 \
+    --per_device_eval_batch_size 1 \
+    --do_train \
+    --do_eval \
+    --line_by_line \
+    --output_dir /home/public/gl/MultiDetection/PromptADDetection/plm/roberta_mlm_raw_reduced_content \
+    --num_train_epochs  10\
+    --overwrite_output_dir;
+
+# pure_normal_description:单纯使用图片表示
+python /home/public/gl/MultiDetection/PromptADDetection/transformers-main/transformers-main/examples/pytorch/language-modeling/run_mlm.py \
+    --model_name_or_path /home/public/gl/MultiDetection/PromptADDetection/plm/roberta \
+    --train_file /home/public/gl/MultiDetection/PromptADDetection/data/pretrainedText/cookie_theft/pure_normal_description.txt \
+    --validation_file /home/public/gl/MultiDetection/PromptADDetection/data/pretrainedText/cookie_theft/pure_normal_description.txt \
+    --per_device_train_batch_size 1 \
+    --per_device_eval_batch_size 1 \
+    --do_train \
+    --do_eval \
+    --line_by_line \
+    --output_dir /home/public/gl/MultiDetection/PromptADDetection/plm/roberta_mlm_pure_normal_description \
+    --num_train_epochs  15 \
+    --overwrite_output_dir;
+
+# pure_normal_description:单纯使用图片表示
+python /home/public/gl/MultiDetection/PromptADDetection/transformers-main/transformers-main/examples/pytorch/language-modeling/run_mlm.py \
+    --model_name_or_path /home/public/gl/MultiDetection/PromptADDetection/plm/roberta \
+    --train_file /home/public/gl/MultiDetection/PromptADDetection/data/pretrainedText/cookie_theft/pure_normal_description.txt \
+    --validation_file /home/public/gl/MultiDetection/PromptADDetection/data/pretrainedText/cookie_theft/pure_normal_description.txt \
+    --per_device_train_batch_size 1 \
+    --per_device_eval_batch_size 1 \
+    --do_train \
+    --do_eval \
+    --line_by_line \
+    --output_dir /home/public/gl/MultiDetection/PromptADDetection/plm/roberta_mlm_pure_normal_description_10 \
+    --num_train_epochs  10 \
+    --overwrite_output_dir;
+
+    # pure_normal_description:单纯使用图片表示
+python /home/public/gl/MultiDetection/PromptADDetection/transformers-main/transformers-main/examples/pytorch/language-modeling/run_mlm.py \
+    --model_name_or_path /home/public/gl/MultiDetection/PromptADDetection/plm/roberta \
+    --train_file /home/public/gl/MultiDetection/PromptADDetection/data/pretrainedText/cookie_theft/pure_normal_description.txt \
+    --validation_file /home/public/gl/MultiDetection/PromptADDetection/data/pretrainedText/cookie_theft/pure_normal_description.txt \
+    --per_device_train_batch_size 1 \
+    --per_device_eval_batch_size 1 \
+    --do_train \
+    --do_eval \
+    --line_by_line \
+    --output_dir /home/public/gl/MultiDetection/PromptADDetection/plm/roberta_mlm_pure_normal_description_5 \
+    --num_train_epochs  5 \
+    --overwrite_output_dir;
+
+# pure_normal_description_diff_order:增加了两种顺序
+python /home/public/gl/MultiDetection/PromptADDetection/transformers-main/transformers-main/examples/pytorch/language-modeling/run_mlm.py \
+    --model_name_or_path /home/public/gl/MultiDetection/PromptADDetection/plm/roberta \
+    --train_file /home/public/gl/MultiDetection/PromptADDetection/data/pretrainedText/cookie_theft/pure_normal_description_diff_order.txt \
+    --validation_file /home/public/gl/MultiDetection/PromptADDetection/data/pretrainedText/cookie_theft/pure_normal_description_diff_order.txt \
+    --per_device_train_batch_size 1 \
+    --per_device_eval_batch_size 1 \
+    --do_train \
+    --do_eval \
+    --line_by_line \
+    --output_dir /home/public/gl/MultiDetection/PromptADDetection/plm/roberta_mlm_pure_normal_description_diff_order \
+    --num_train_epochs  6\
+    --overwrite_output_dir;
+
+
+
